@@ -20,7 +20,8 @@ Requesting an **artist** adds the whole discography, monitored + searched.
 Status on `/api/requests` comes from Lidarr's `statistics.percentOfTracks`
 (`0 → pending`, `0<x<100 → downloading`, `100 → available`), with a richer 5-stage pipeline
 (requested → searching → downloading → importing → available) for the app's expandable view. A
-request that finds no source after `SEARCH_GIVE_UP_ATTEMPTS` search cycles is marked **failed**.
+request that finds no source after `SEARCH_GIVE_UP_ATTEMPTS` search cycles is marked **failed**;
+set it to `0` to never give up (the request shows "Still looking" and keeps being tracked).
 
 ## Run (Lidarr-native — works with any download client)
 

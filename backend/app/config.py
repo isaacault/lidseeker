@@ -134,6 +134,9 @@ RECONCILE_POLL_SECONDS = int(os.environ.get("RECONCILE_POLL_SECONDS", "60"))
 # search cycles, give up and mark it "failed" (red in the app, offers Retry).
 # We count one fruitless attempt per SEARCH_ATTEMPT_INTERVAL_SECONDS (~one Soularr
 # cycle) so the count tracks actual search rounds, not wall-clock alone.
+# 0 = never give up: the request stays "Still looking" (amber, offers Retry), its
+# album stays monitored and it is still tracked, so a source that turns up days
+# later (new upload, re-seeded torrent) still downloads and notifies.
 SEARCH_GIVE_UP_ATTEMPTS = int(os.environ.get("SEARCH_GIVE_UP_ATTEMPTS", "5"))
 SEARCH_ATTEMPT_INTERVAL_SECONDS = int(
     os.environ.get("SEARCH_ATTEMPT_INTERVAL_SECONDS", "300")

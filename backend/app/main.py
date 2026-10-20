@@ -167,9 +167,9 @@ async def _status_loop() -> None:
 
 async def _track_search_attempts(row: dict) -> None:
     """Count consecutive Soularr search cycles that turned up no source, and give
-    up (mark the request 'failed') once we hit SEARCH_GIVE_UP_ATTEMPTS. A cycle
-    only counts while the request is genuinely still searching with nothing in
-    flight; any real progress resets the counter."""
+    up (mark the request 'failed') once we hit SEARCH_GIVE_UP_ATTEMPTS (never, if
+    that is 0). A cycle only counts while the request is genuinely still searching
+    with nothing in flight; any real progress resets the counter."""
     pipeline = await lidarr.request_pipeline(
         row["lidarr_album_id"], row["lidarr_artist_id"],
         row["artist"], row["status"], row["created_at"],
@@ -183,7 +183,7 @@ async def _track_search_attempts(row: dict) -> None:
         return
     attempts = (row["search_attempts"] or 0) + 1
     db.bump_search_attempt(row["id"], attempts)
-    if attempts >= config.SEARCH_GIVE_UP_ATTEMPTS:
+    if config.SEARCH_GIVE_UP_ATTEMPTS > 0 and attempts >= config.SEARCH_GIVE_UP_ATTEMPTS:
         db.update_status(row["id"], "failed")
         log.info("request %s gave up after %d fruitless searches", row["id"], attempts)
 

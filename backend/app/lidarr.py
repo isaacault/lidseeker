@@ -940,7 +940,8 @@ async def request_pipeline(lidarr_album_id: Optional[int],
     if _is_stuck(created_at):
         return _build_pipeline(
             "searching", pct, files, total,
-            "Still looking — no source found yet. Tap Retry to search again.",
+            "Still looking — no source found yet. Searching continues automatically; "
+            "tap Retry to search again now.",
             stuck=True,
         )
     return _build_pipeline("searching", pct, files, total,
